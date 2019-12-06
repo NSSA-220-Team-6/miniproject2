@@ -23,8 +23,9 @@ def filter(inputFileName, protocol):
 
    # Indentify and filter packets by specified protocol
    for packet in b:
-      # Check if list index contains protocol in string (!= -1 meaning it has been found)
-      if packet.find(protocol) != -1:
+      # Check if list index contains protocol in string (!= -1 meaning it has been found) 
+      # Also check if the packet does not contain "unreachable" as part of an error message (== -1 meaning it has not been found)
+      if packet.find(protocol) != -1 and packet.find("unreachable") == -1:
          # Write packet to output file if found
          fOut.write(packet)
 
