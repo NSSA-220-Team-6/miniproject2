@@ -4,27 +4,30 @@ def filter(inputFileName, protocol):
    
    # Create an output file based on the input filename
    outputFileName = inputFileName.split(".")[0] + "_filtered.txt"
-   print(outputFileName)
 
    # Open the input and output files
    fIn = open(inputFileName, 'r')
    fOut = open(outputFileName, 'w')
-   
+
+   # Variables to store information   
    a = str()
    b = list()
 
+   # Iterate through input file to separate packets into a list
    for line in fIn:
       if line[0] == 'N':
-         b += [a]
-         a = line
+         b += [a] # Store the current line
+         a = line # set a to current line
       else:
-         a += line
+         a += line # append packet information to string
 
+   # Indentify and filter packets by specified protocol
    for packet in b:
-      if packet.find('ICMP') != -1:
+      # Check if list index contains protocol in string (!= -1 meaning it has been found)
+      if packet.find(protocol) != -1:
+         # Write packet to output file if found
          fOut.write(packet)
-      else:
-         continue
 
+   # Close files
    fIn.close()
    fOut.close()
