@@ -52,7 +52,7 @@ def compute(parserOutput) :
 
 
          #Check if the packet was recieved
-         if secondIP in packet[2]:
+         if not firstIP in packet[2]:
             #print(packet[6])
             echoRepRecieved = echoRepRecieved + 1
 
@@ -71,7 +71,7 @@ def compute(parserOutput) :
 
 
          #Check if the packet was recieved
-         if secondIP in packet[2]:
+         if not firstIP in packet[2]:
             #print(packet[6])
             echoReqRecieved = echoReqRecieved + 1
             totalReqBytesRecieved = totalReqBytesRecieved + int(packet[5])
