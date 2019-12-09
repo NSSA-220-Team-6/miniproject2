@@ -1,5 +1,5 @@
 def compute(parserOutput) :
-   print 'called compute function in compute_metrics.py'
+   print('called compute function in compute_metrics.py')
 
    #Total Packet count
    packetCount = 0
@@ -17,6 +17,8 @@ def compute(parserOutput) :
    payloadRecieved = 0
 
    #Time Metrics
+   request = True
+   reply = False
    times = []
    pingTimes = []
    avgPingRRT = 0
@@ -107,19 +109,12 @@ def compute(parserOutput) :
 
    throughput = ((packetFull/sum(pingTimes))/1000) #Calculate and convert to kB/s
    goodput = ((packetPayload/sum(pingTimes))/1000) #Calculate and convert to kB/s
-
-
    
-   #Compute Average Reply Delay
-
-   
-   
-   #Compute Number of Hops
       
       
 
 
-   #Test the Output
+      
 
    print('Data Metrics')
    print('------------')
@@ -141,7 +136,7 @@ def compute(parserOutput) :
    print('------------')
    print()
    print()
-   print('Average Ping RTT:',avgPingRRT,'ms')
+   print('Average Ping RTT:',avgPingRRT)
    print('Echo Request Throughput',throughput,'kB/sec')
    print('Echo Request Goodput',goodput,'kB/sec')
    print('Average Reply Delay',replyDelay)
@@ -152,3 +147,4 @@ def compute(parserOutput) :
    print()
    print()
    print('Average number of Hops per echo request:',avgHops)
+
