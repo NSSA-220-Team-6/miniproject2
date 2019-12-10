@@ -2,6 +2,8 @@ from filter_packets import *
 from packet_parser import *
 from compute_metrics import *
 
-filter("Node1.txt", "ICMP")
-L = parse("Node1_filtered.txt")
-compute(L)
+files = ["Node1.txt"]
+for file in files:
+    filter(file, "ICMP")
+    L = parse(file.split(".")[0] + "_filtered.txt")
+    compute(L)
