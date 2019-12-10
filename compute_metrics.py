@@ -36,11 +36,14 @@ def compute(parserOutput, IP):
                payloadRecieved += (int(packet[5]) - 42)
       else:
          continue
-
-   time_sum = int()
+   
+   #Working RTT
+   loopCount = 0
    for i in range(0, len(times) - 1, 2):
-      time_sum += (times[i + 1] - times[i])
-   avgPingRTT = (time_sum / (len(times) / 2)) * 1000
+      if parserOutput[i][2] == IP:
+         time_sum += (times[i + 1] - times[i])
+         loopCount += 1
+   avgPingRTT = (time_sum/loopCount) * 1000
 
    throughput = int()
    goodput = int()
