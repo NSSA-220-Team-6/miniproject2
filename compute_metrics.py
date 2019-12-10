@@ -3,8 +3,10 @@ def compute(parserOutput, IP):
    print('called compute function in compute_metrics.py')
    #Time Metrics
    pingTimes = []
+   replyDelaySum = 0
    replyDelay = 0
    #Distance Metrics
+   totalHops = 0
    avgHops = 0 
 
    echoReqSent = int()
@@ -31,16 +33,21 @@ def compute(parserOutput, IP):
                echoReqSent += 1
                totalReqBytesSent += int(packet[5])
                payloadSent += (int(packet[5]) - 42)
+         packetCounter += 1
       elif IP == packet[3]:
          #Its the destination IP
          #append to a list of times
          times.append(float(packet[1]))
          if "rep" == packet[6][12:15]:
                echoRepRecieved += 1
+               totalHops += 129 - int(packet[6].split(",")[2].split("=")[1].split(" ")[0])
          if "req" == packet[6][12:15]:
                echoReqRecieved += 1
                totalReqBytesRecieved += int(packet[5])
                payloadRecieved += (int(packet[5]) - 42)
+               # Average reply delay
+               replyDelaySum += float(parserOutput[packetCounter + 1][1]) - float(packet[1])
+         packetCounter += 1
       else:
          continue
  
@@ -87,5 +94,5 @@ def compute(parserOutput, IP):
    f.write("Average RTT (milliseconds)," + str(avgPingRTT) + "\n")
    f.write("Echo Request Throughput (kB/sec)," + str(throughput) + "\n")
    f.write("Echo Request Goodput (kB/sec)," + str(goodput) + "\n")
-   f.write("Average Reply Delay (microseconds)," + str(replyDelay) + "\n")
-   f.write("Average Echo Request Hop Count," + str(avgHops) + "\n\n")
+   f.write("Average Reply Delay (microseconds)," + str(replyDelay * 1000000) + "\n")
+   f.write("Average Echo Reply Hop Count," + str(avgHops) + "\n\n")
