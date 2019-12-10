@@ -110,6 +110,21 @@ def compute(parserOutput) :
    throughput = ((packetFull/sum(pingTimes))/1000) #Calculate and convert to kB/s
    goodput = ((packetPayload/sum(pingTimes))/1000) #Calculate and convert to kB/s
    
+   
+   
+   j = 1
+   delaySum = 0
+   delayBetween = 0
+   while j < (len(times)-1): #While i has not iterated through the entire list
+      reply = times[j]
+      request = times[j + 1]
+      delayBetween = request - reply
+      delaySum = delaySum + delayBetween
+      j = j + 2
+
+   avgTimes = delaySum /(len(times)/2) #in miliseconds
+   replyDelay = avgTimes*1000 #Convert to microseconds
+   
       
       
 
