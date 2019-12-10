@@ -1,4 +1,4 @@
-def compute(parserOutput) :
+def compute(parserOutput, fileName) :
    print('called compute function in compute_metrics.py')
 
    #Total Packet count
