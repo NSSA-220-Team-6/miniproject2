@@ -1,5 +1,5 @@
 def parse(inputFileName) :
-   print ('called parse function in packet_parser.py')
+   print 'called parse function in packet_parser.py'
 
    # Take input file to parse
    fIn = open(inputFileName, 'r')
