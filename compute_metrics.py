@@ -1,5 +1,6 @@
+
 def compute(parserOutput, IP):
-   print ('called compute function in compute_metrics.py')
+   print('called compute function in compute_metrics.py')
    #Time Metrics
    pingTimes = []
    replyDelay = 0
@@ -16,9 +17,13 @@ def compute(parserOutput, IP):
    payloadSent = int()
    times = list()
    requests = list()
+
    for packet in parserOutput:
       if IP == packet[2]:
+         #Its the source IP
+         #append to a list of requests
          requests.append(packet)
+         #Append the a list of times
          times.append(float(packet[1]))
          if "rep" == packet[6][12:15]:
                echoRepSent += 1
@@ -27,6 +32,8 @@ def compute(parserOutput, IP):
                totalReqBytesSent += int(packet[5])
                payloadSent += (int(packet[5]) - 42)
       elif IP == packet[3]:
+         #Its the destination IP
+         #append to a list of times
          times.append(float(packet[1]))
          if "rep" == packet[6][12:15]:
                echoRepRecieved += 1
@@ -36,28 +43,37 @@ def compute(parserOutput, IP):
                payloadRecieved += (int(packet[5]) - 42)
       else:
          continue
-   
-   #Working RTT
+ 
+
+   #Find average ping RTT
+   time_sum = int()
+   every_sum = int()
    loopCount = 0
    for i in range(0, len(times) - 1, 2):
       if parserOutput[i][2] == IP:
-         time_sum += (times[i + 1] - times[i])
+         time_sum += (times[i + 1] - times[i]) #This sum adds only packets that match IP
          loopCount += 1
+      
+      every_sum += (times[i + 1] - times[i]) #This sum adds times for every packet
    avgPingRTT = (time_sum/loopCount) * 1000
 
    throughput = int()
    goodput = int()
-
+   #Find Throughput and Goodput
    pingTime = (float(requests[-1][1])) - (float(requests[0][1]))
-   throughput = ((totalReqBytesRecieved + totalReqBytesSent)/pingTime)/1000
-   goodput = ((payloadRecieved + payloadSent)/pingTime)/1000
+   throughput = ((totalReqBytesSent)/time_sum)/1000
+   goodput = ((payloadSent)/time_sum)/1000
 
+   #Find Delay Time in microseconds
+   loopCount = 0
    delaySum = int()
-   for i in range(0, len(times) - 1, 2): #While i has not iterated through the entire list
-      delaySum += times[i + 1] - times[i]
+   for i in range(1, len(times) - 1, 2): #While i has not iterated through the entire list
+      if parserOutput[i][2] == IP: #Check if the source IP matches the node IP
+         delaySum += times[i + 1] - times[i]
+         loopCount += 1
 
-   avgTimes = delaySum /(len(times)/2) #in miliseconds
-   replyDelay = avgTimes*1000 #Convert to microseconds
+   avgTimes = delaySum /(len(times)/2) 
+   replyDelay = avgTimes*1000 
 
    fileName = "output.csv"
    f = open(fileName, "a")
