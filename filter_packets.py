@@ -1,6 +1,6 @@
 # Parameters: File name to parse, protocol to search for (ex. "ICMP")
 def filter(inputFileName, protocol):
-   print 'called filter function in filter_packets.py'
+   print ('called filter function in filter_packets.py')
    
    # Create an output file based on the input filename
    outputFileName = inputFileName.split(".")[0] + "_filtered.txt"
