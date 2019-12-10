@@ -1,6 +1,7 @@
 
 def compute(parserOutput, IP):
    print('called compute function in compute_metrics.py')
+   packetCounter = 0
    #Time Metrics
    pingTimes = []
    replyDelaySum = 0
