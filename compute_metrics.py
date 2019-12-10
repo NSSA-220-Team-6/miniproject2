@@ -84,16 +84,16 @@ def compute(parserOutput) :
 
    #Compute Time Metrics
    i = 0
-   avgTimes = 0
-   
-   while i < (len(times)-1):
-      reqTime = times[i] #Request
-      replyTime = times[i + 1] #Reply
-      avgTimes = round((avgTimes + (replyTime - reqTime)),7)
-      pingTimes.append(avgTimes)
+   timeSum = 0
+   while i < (len(times)): #While i has not iterated through the entire list
+      request = times[i]
+      reply = times[i + 1]
+      timeBetween = reply - request
+      timeSum = timeSum + timeBetween
       i = i + 2
 
-   avgPingRRT = (avgTimes/(len(times)/2))*1000 #Calculate average and convert to miliseconds
+   avgTimes = timeSum /(len(times)/2) #Divide by the number of RTTs
+   avgPingRRT = avgTimes*1000 #Convert to Miliseconds
 
    #Compute Echo Request Throughput and Goodput
    packetNum= 0
