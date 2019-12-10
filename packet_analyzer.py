@@ -20,4 +20,4 @@ for f in files:
    filter(f, "ICMP")
    filtered = f.split(".")[0] + "_filtered.txt"
    L = parse(filtered)
-   compute(L, ip)
+   compute(L, f, ip)

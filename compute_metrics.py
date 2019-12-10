@@ -1,5 +1,5 @@
 
-def compute(parserOutput, IP):
+def compute(parserOutput, file, IP):
    print('called compute function in compute_metrics.py')
    packetCounter = 0
    #Time Metrics
@@ -86,7 +86,8 @@ def compute(parserOutput, IP):
 
    fileName = "output.csv"
    f = open(fileName, "a")
-   f.write("")
+   f.write(file.split(".")[0])
+   f.write("\n\n")
    f.write("Echo Requests Sent,Echo Requests Received,Echo Replies Sent,Echo Replies Received\n")
    f.write(str(echoReqSent) + "," + str(echoReqRecieved) + "," +  str(echoRepSent) + "," + str(echoRepRecieved) + "\n")
    f.write("Echo Request Bytes Sent (bytes),Echo Request Data Sent (bytes)\n")
