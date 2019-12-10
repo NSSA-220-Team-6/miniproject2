@@ -174,5 +174,6 @@ def compute(parserOutput, fileName) :
    f.write(str(totalReqBytesRecieved) + "," + str(payloadRecieved) + "\n\n")
    f.write("Average RTT (milliseconds)," + str(avgPingRRT) + "\n")
    f.write("Echo Request Throughput (kB/sec)," + str(throughput) + "\n")
+   f.write("Echo Request Goodput (kB/sec)," + str(goodput) + "\n")
    f.write("Average Reply Delay (microseconds)," + str(replyDelay) + "\n")
    f.write("Average Echo Request Hop Count," + str(avgHops) + "\n\n")
