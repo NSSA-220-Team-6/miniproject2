@@ -29,8 +29,6 @@ def compute(parserOutput) :
    #Distance Metrics
    avgHops = 0
 
-   
-
    #Determine request or reply, and sent or recieved
    rep = 'reply'
    req = 'request'
