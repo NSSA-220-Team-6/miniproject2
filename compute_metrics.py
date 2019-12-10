@@ -28,6 +28,8 @@ def compute(parserOutput, fileName) :
 
    #Distance Metrics
    avgHops = 0
+   totalHops = 0
+   requestCounter = 0
 
    #Determine request or reply, and sent or recieved
    rep = 'reply'
