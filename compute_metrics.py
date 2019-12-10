@@ -25,6 +25,7 @@ def compute(parserOutput, fileName) :
    throughput = 0
    goodput = 0
    replyDelay = 0
+   requests = []
 
    #Distance Metrics
    avgHops = 0
@@ -60,6 +61,7 @@ def compute(parserOutput, fileName) :
 
       #Check if the packet is a request
       if req in (packet[6])[:20]:
+         requests.append(packet)
          #Distance metrics for echo requests	  
          hops = 129 - int(packet[6].split(",")[2].split("=")[1].split(" ")[0])
          totalHops += int(hops)
@@ -113,10 +115,11 @@ def compute(parserOutput, fileName) :
       packetPayload = packetPayload + packetSize 
       packetNum = packetNum + 2 #Skip over the reply packets
 
-   throughput = ((packetFull/sum(pingTimes))/1000) #Calculate and convert to kB/s
-   goodput = ((packetPayload/sum(pingTimes))/1000) #Calculate and convert to kB/s
-   
-   
+   last = (float(requests[-1][1]))
+   first = (float(requests[0][1]))
+   pingTimes = last - first
+   throughput = (((totalReqBytesSent+ totalReqBytesRecieved)/pingTimes)/1000) #Calculate and convert to kB/s
+   goodput = (((payloadRecieved + payloadSent)/pingTimes)/1000) #Calculate and convert to kB/s
    
    j = 1
    delaySum = 0
