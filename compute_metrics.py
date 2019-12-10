@@ -60,9 +60,14 @@ def compute(parserOutput) :
 
       #Check if the packet is a request
       if req in (packet[6])[:20]:
-
+         #Distance metrics for echo requests	  
+         hops = 129 - int(packet[6].split(",")[2].split("=")[1].split(" ")[0])
+         totalHops += int(hops)
+         requestCounter += 1
+         print("count " + str(requestCounter))
+         print("hops for this packet " + str(hops))
+         print("total hops " + str(totalHops))
          
-
          #Check if the packet was sent
          if firstIP in packet[2]:
             echoReqSent = echoReqSent + 1
@@ -80,8 +85,9 @@ def compute(parserOutput) :
       #Gather Times
       times.append(float(packet[1]))
       
-
-
+   #Compute average hops
+   avgHops = totalHops / requestCounter
+   
    #Compute Time Metrics
    i = 0
    timeSum = 0
@@ -125,12 +131,6 @@ def compute(parserOutput) :
    avgTimes = delaySum /(len(times)/2) #in miliseconds
    replyDelay = avgTimes*1000 #Convert to microseconds
    
-      
-      
-
-
-      
-
    print('Data Metrics')
    print('------------')
    print()
@@ -163,3 +163,16 @@ def compute(parserOutput) :
    print()
    print('Average number of Hops per echo request:',avgHops)
 
+   f = open("output.csv", "a")
+   f.write(fileName.split(".")[0])
+   f.write("\n\n")
+   f.write("Echo Requests Sent,Echo Requests Received,Echo Replies Sent,Echo Replies Received\n")
+   f.write(str(echoReqSent) + "," + str(echoReqRecieved) + "," +  str(echoRepSent) + "," + str(echoRepRecieved) + "\n")
+   f.write("Echo Request Bytes Sent (bytes),Echo Request Data Sent (bytes)\n")
+   f.write(str(totalReqBytesSent) + "," + str(payloadSent) + "\n")
+   f.write("Echo Request Bytes Received (bytes),Echo Request Data Received (bytes)\n")
+   f.write(str(totalReqBytesRecieved) + "," + str(payloadRecieved) + "\n\n")
+   f.write("Average RTT (milliseconds)," + str(avgPingRRT) + "\n")
+   f.write("Echo Request Throughput (kB/sec)," + str(throughput) + "\n")
+   f.write("Average Reply Delay (microseconds)," + str(replyDelay) + "\n")
+   f.write("Average Echo Request Hop Count," + str(avgHops) + "\n\n")
