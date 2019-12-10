@@ -81,7 +81,8 @@ def compute(parserOutput, IP):
          loopCount += 1
 
    avgTimes = delaySum /(len(times)/2) 
-   replyDelay = avgTimes*1000 
+   replyDelay = (replyDelaySum / echoReqRecieved) * 1000000
+   avgHops = totalHops / (echoRepRecieved)   
 
    fileName = "output.csv"
    f = open(fileName, "a")
@@ -95,5 +96,5 @@ def compute(parserOutput, IP):
    f.write("Average RTT (milliseconds)," + str(avgPingRTT) + "\n")
    f.write("Echo Request Throughput (kB/sec)," + str(throughput) + "\n")
    f.write("Echo Request Goodput (kB/sec)," + str(goodput) + "\n")
-   f.write("Average Reply Delay (microseconds)," + str(replyDelay * 1000000) + "\n")
+   f.write("Average Reply Delay (microseconds)," + str(replyDelay) + "\n")
    f.write("Average Echo Reply Hop Count," + str(avgHops) + "\n\n")
